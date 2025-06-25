@@ -1,6 +1,4 @@
-# Zendesk-Ticket-Analyzer
-
-# Zendesk Ticket Analysis Dashboard
+# Zendesk-Ticket-Analyzer & Dashboard
 
 This project provides a Python Tkinter dashboard for analyzing Zendesk support tickets using AI (OpenAI GPT-4, Kapa.ai) and visualizing results with interactive charts and drilldowns.
 
