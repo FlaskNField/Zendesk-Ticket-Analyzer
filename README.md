@@ -10,6 +10,7 @@ This project provides a Python Tkinter dashboard for analyzing Zendesk support t
 - Displays results in a modern, interactive Tkinter dashboard
 - Drilldown to ticket details, with clickable ticket links
 - Option to run from a previously generated CSV to avoid repeated API calls
+<img width="1514" alt="image" src="https://github.com/user-attachments/assets/4b51a394-def2-4a99-a685-7e8dc375fe6a" />
 
 ## Setup
 1. **Clone the repository**
