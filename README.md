@@ -32,7 +32,6 @@ This project provides a Python Tkinter dashboard for analyzing Zendesk support t
      KAPA_PROJECT_ID=your_kapa_project_id
      KAPA_INTEGRATION_ID=your_kapa_integration_id
      ```
-   - **Never commit your real .env file or API keys to a public repo!**
 
 ## Usage
 Run the script from your virtual environment:
