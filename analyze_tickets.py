@@ -13,6 +13,8 @@ from dateutil.parser import parse
 from tenacity import retry, stop_after_attempt, wait_exponential
 from dotenv import load_dotenv
 import matplotlib
+from security import safe_requests
+
 matplotlib.use('TkAgg')
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -102,7 +104,7 @@ def get_zendesk_tickets(days_to_look_back, ticket_form_id):
     auth = (f"{ZENDESK_EMAIL}/token", ZENDESK_API_TOKEN)
     params = {"query": query}
     
-    response = requests.get(url, auth=auth, params=params)
+    response = safe_requests.get(url, auth=auth, params=params)
     response.raise_for_status()
     return response.json()['results']
 
@@ -113,7 +115,7 @@ def get_ticket_comments(ticket_id):
     assert ZENDESK_EMAIL is not None and ZENDESK_API_TOKEN is not None
     auth = (f"{ZENDESK_EMAIL}/token", ZENDESK_API_TOKEN)
     
-    response = requests.get(url, auth=auth)
+    response = safe_requests.get(url, auth=auth)
     response.raise_for_status()
     return response.json()['comments']
 
@@ -998,7 +1000,7 @@ def get_kapa_deflection(total_tickets):
         end_str = now.strftime('%Y-%m-%dT%H:%M:%SZ')
         url = f"https://api.kapa.ai/query/v1/projects/{KAPA_PROJECT_ID}/analytics/activity/?start_date_time={start_str}&end_date_time={end_str}&aggregation_period=day"
         headers = {'X-API-KEY': KAPA_API_KEY} if KAPA_API_KEY else {}
-        resp = requests.get(url, headers=headers, timeout=30)
+        resp = safe_requests.get(url, headers=headers, timeout=30)
         resp.raise_for_status()
         data = resp.json()
         kapa_convos = data.get('aggregate', {}).get('total_conversations', 0)
@@ -1027,7 +1029,7 @@ def get_zendesk_article_views(start_time):
         page_count = 0
         MAX_PAGES = 20
         while next_page and page_count < MAX_PAGES:
-            resp = requests.get(next_page, headers=headers, timeout=30)
+            resp = safe_requests.get(next_page, headers=headers, timeout=30)
             if resp.status_code == 404:
                 print(f"Zendesk article view endpoint not found. Check your subdomain, permissions, and Guide plan.")
                 return 0
@@ -1053,7 +1055,7 @@ def get_kapa_convo_count(start_time):
         start_str = start_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
         url = f"https://api.kapa.ai/query/v1/projects/{KAPA_PROJECT_ID}/analytics/activity/?start_date_time={start_str}&end_date_time={end_str}&aggregation_period=day"
         headers = {'X-API-KEY': KAPA_API_KEY} if KAPA_API_KEY else {}
-        resp = requests.get(url, headers=headers, timeout=30)
+        resp = safe_requests.get(url, headers=headers, timeout=30)
         if resp.status_code == 400:
             print(f"Kapa API returned 400 Bad Request. Check your project ID and date range.")
             return 0
